@@ -39,7 +39,7 @@ def signup(username, password):
   y = pow(g,x,n) # This is the public key
   request = f'/signup {username} {y}'
   client.send(request.encode())
-  response = client.recv(4096)
+  response = client.recv(4096) # This is the will be the C
   print(response.decode())
 
 # Usage:
