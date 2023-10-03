@@ -29,20 +29,19 @@ def save_users(users):
 def handle_client(client_socket):
     request = client_socket.recv(1024).decode()
     route, _, data = request.partition(' ')
-    if route == '/login' and 'r value for' in data:
-      pass
-    else:
-      username, _, password = data.partition(' ')
+    username, _, password = data.partition(' ')
     
     users = load_users()
     
     if route == '/signup':
+        print(data)
         if username in users:
-            client_socket.send("Username already taken".encode())
+          client_socket.send("Username already taken".encode())
         else:
             users[username] = password
             save_users(users)
             client_socket.send("Signup successful".encode())
+
     elif route == '/login':
         if username not in users:
             client_socket.send("Invalid username".encode())
@@ -51,7 +50,8 @@ def handle_client(client_socket):
           c = random.randint(1,997)
           client_socket.send(str(c).encode())
           # receive the r and check it
-          r = data.split(' ')[-1]
+          nameForR = data.split(' ')[3]
+          r = data.split(' ')[4]
           # the users password
           y = int(users[username])
           if (r<0):

@@ -34,13 +34,13 @@ def signup(username, password):
   client.connect(('127.0.0.1', 9999))
 
   # Generate public key
-  x = int(hashlib.md5(password).hexdigest()[:8], 16) % n
+  x = int(hashlib.md5(password.encode()).hexdigest()[:8], 16) % n
   g = 3
   y = pow(g,x,n) # This is the public key
-  request = f'/signup {username} {y}'
+  request = f'/signup r value for {username} {y}'
   client.send(request.encode())
-  response = client.recv(4096) # This is the will be the C
+  response = client.recv(4096)
   print(response.decode())
 
 # Usage:
-signup('john_doe', 'password123')
+signup('john2', 'password123')
