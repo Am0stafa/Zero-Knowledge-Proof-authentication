@@ -28,6 +28,7 @@ def handle_client(client_socket):
     username, _, password = data.partition(' ')
     
     users = load_users()
+    
 
     if route == '/signup':
         if username in users:
