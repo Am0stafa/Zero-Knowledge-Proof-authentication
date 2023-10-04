@@ -2,7 +2,6 @@ import socket
 import threading
 import json
 import os
-import numpy
 import random
 import libnum
 
@@ -34,7 +33,6 @@ def handle_client(client_socket):
     users = load_users()
     
     if route == '/signup':
-        print(data)
         if username in users:
           client_socket.send("Username already taken".encode())
         else:
@@ -49,15 +47,20 @@ def handle_client(client_socket):
           providedT = int(password)
           c = random.randint(1,997)
           client_socket.send(str(c).encode())
-          # receive the r and check it
-          nameForR = data.split(' ')[3]
-          r = data.split(' ')[4]
-          # the users password
-          y = int(users[username])
-          if (r<0):
-            Result = ( libnum.invmod(pow(g,-r,n),n) * pow(y,c,n))  % n
-          else:
-            Result = ( pow(g,r,n) * pow(y,c,n))  % n
+
+          if 'r value for' in data:
+            # receive the r and check it
+            nameForR = data.split(' ')[3]
+            r = data.split(' ')[4]
+            # the users password
+            y = int(users[username])
+            if (r<0):
+              Result = ( libnum.invmod(pow(g,-r,n),n) * pow(y,c,n))  % n
+            else:
+              Result = ( pow(g,r,n) * pow(y,c,n))  % n
+            
+            if (Result == providedT):
+              client_socket.send("Login successful".encode())
 
     else:
         client_socket.send("Invalid route".encode())

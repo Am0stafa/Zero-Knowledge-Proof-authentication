@@ -1,4 +1,4 @@
-# It hashes the password to generate a "public key" public key based on the password and sends this along with the username to the server
+# It hashes the password along with powering it to G to generate a "public key" public key based on the password and sends this along with the username to the server
 
 import socket
 import hashlib

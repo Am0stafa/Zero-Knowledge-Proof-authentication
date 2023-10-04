@@ -12,8 +12,7 @@ def login(username,password):
   request = f'/login {username} {t}'
   client.send(request.encode())
   response = client.recv(4096)
-  print(response.decode()) # the server send the c which is the challenge
-  c = int(response.decode())
+  c = int(response.decode()) # the server send the c which is the challenge
   x = int(hashlib.md5(password).hexdigest()[:8], 16) % n
   r = (v - c * x)
   # send it to the server
