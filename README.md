@@ -1,10 +1,10 @@
-# Zero Knowledge Proof authentication
+# Passwordless authentication using Zero Knowledge Proof 
 
 This project demonstrates a simple Zero-Knowledge Proof authentication scheme using the Fiat-Shamir heuristic. The implementation is thread-safe, ensuring multiple users can simultaneously sign up and log in without clashes.
 
 ## Overview
 
-Zero-Knowledge Proofs are cryptographic methods that allow one party (the prover) to prove to another party (the verifier) that they know a value x, without conveying any information apart from the fact that they know the value x. 
+Zero-knowledge proofs are cryptographic methods that allow one party (the prover) to prove to another party (the verifier) that they know a value x, without conveying any information apart from the fact that they know the value x. 
 
 The Fiat-Shamir heuristic is a method used to transform an interactive public-coin protocol (where the verifier's challenges are random bits) into a non-interactive protocol. This transformation is especially useful in digital signature schemes and zero-knowledge proofs.
 
