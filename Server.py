@@ -11,22 +11,26 @@ data_file = 'users.json'
 g = 3
 n = 997
 salt = "S0m3_S4lt"
+# this will make sure that the load_users() and save_users() functions do not clash when multiple threads try to read from or write
+file_lock = threading.Lock()
 
 def load_users():
-  if os.path.exists(data_file):
-    with open(data_file, 'r') as f:
-      try:
-        return json.load(f)
-      except json.JSONDecodeError:
-        print("The users file is empty")
-        return {}
-  print("The users file does not exist")
-  return {}
-
+  with file_lock:
+    if os.path.exists(data_file):
+      with open(data_file, 'r') as f:
+        try:
+          return json.load(f)
+        except json.JSONDecodeError:
+          print("The users file is empty")
+          return {}
+    print("The users file does not exist")
+    return {}
 
 def save_users(users):
-  with open(data_file, 'w') as f:
-    json.dump(users, f)
+  with file_lock:
+    with open(data_file, 'w') as f:
+      json.dump(users, f)
+
 
 def handle_client(client_socket, addr):
     print(Fore.GREEN + f"Connection from {addr}" + Fore.RESET)
@@ -49,8 +53,8 @@ def handle_client(client_socket, addr):
 
     elif route == '/login':
         if username not in users:
-            client_socket.send("Invalid username".encode())
-            print(Fore.RED + f"Invalid username {username} for address {addr}" + Fore.RESET)
+          client_socket.send("Invalid username".encode())
+          print(Fore.RED + f"Invalid username {username} for address {addr}" + Fore.RESET)
         else:
             providedT = int(password)
             print(Fore.GREEN + f"User {username} of address {addr} sended the value of t as {providedT}" + Fore.RESET)
@@ -89,9 +93,9 @@ def main():
     print("Server listening on port 9999")
 
     while True:
-        client_socket, addr = server.accept()
-        client_handler = threading.Thread(target=handle_client, args=(client_socket, addr))
-        client_handler.start()
+      client_socket, addr = server.accept()
+      client_handler = threading.Thread(target=handle_client, args=(client_socket, addr))
+      client_handler.start()
 
 if __name__ == "__main__":
-    main()
+  main()

@@ -2,7 +2,9 @@
 
 import socket
 import hashlib
+from colorama import init,Fore
 
+init()
 n = 997
 g = 3
 salt = "S0m3_S4lt"
@@ -27,38 +29,24 @@ def genG(p):
       return rand
 # print(genG(35527))
 
-# def signup(username, password):
-#   if ' ' in username:
-#     print('Username cannot contain spaces')
-#     return
-#   client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#   client.connect(('127.0.0.1', 9999))
-
-#   # Generate public key
-#   x = int(hashlib.md5(password.encode()).hexdigest()[:8], 16) % n
-#   g = 3
-#   y = pow(g,x,n) # This is the public key
-#   request = f'/signup r value for {username} {y}'
-#   client.send(request.encode())
-#   response = client.recv(4096)
-#   print(response.decode())
-
 
 def signup(username, password):
-    if ' ' in username:
-        print('Username cannot contain spaces')
-        return
-    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect(('127.0.0.1', 9999))
-    hashed_password = hashlib.md5((password + salt).encode()).hexdigest()
-    
-    # Generate public key
-    x = int(hashed_password, 16) % n
-    y = pow(g, x, n)  # This is the public key
-    request = f'/signup {username} {y}'
-    client.send(request.encode())
-    response = client.recv(4096)
-    print(response.decode())
+  if ' ' in username:
+    print('Username cannot contain spaces')
+    return
+  client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+  client.connect(('127.0.0.1', 9999))
+  
+  # Generate public key
+  hashed_password = hashlib.md5((password + salt).encode()).hexdigest()
+  x = int(hashed_password, 16) % n
+  print(Fore.GREEN + f"The user {username} hashed the password with mod {n} which computed to {x}" + Fore.RESET)
+  y = pow(g, x, n)  # This is the public key
+  print(Fore.GREEN + f"The user {username} generated y with the value of {y}" + Fore.RESET)
+  request = f'/signup {username} {y}'
+  client.send(request.encode())
+  response = client.recv(4096)
+  print(response.decode())
 
 # Usage:
 signup('john2', 'password123')
