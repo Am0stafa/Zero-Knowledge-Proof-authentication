@@ -1,6 +1,6 @@
 # Passwordless authentication using Zero Knowledge Proof 
 
-This project demonstrates a simple Zero-Knowledge Proof authentication scheme using the Fiat-Shamir heuristic. The implementation is thread-safe, ensuring multiple users can simultaneously sign up and log in without clashes.
+This project demonstrates a simple Zero-Knowledge Proof authentication scheme using the Fiat-Shamir heuristic. The implementation is thread-safe, ensuring multiple users can simultaneously sign up and login without clashes.
 
 ## Overview
 
@@ -22,7 +22,7 @@ The Fiat-Shamir heuristic is a method used to transform an interactive public-co
    - The server verifies the proof by calculating the expected result using the r value and the client's y value (retrieved from the database). If the proof is valid, the client is authenticated.\
 
 ###  Flow visulaization
-![alt text](http://url/to/img.png)
+![IMG_1503](https://github.com/Am0stafa/Zero-Knowledge-Proof-authentication/assets/62848968/8c97dc43-14c1-4288-8c7a-ed40488e1f8c)
 
 
 ## Thread Safety
