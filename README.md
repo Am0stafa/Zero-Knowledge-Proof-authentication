@@ -24,6 +24,7 @@ The Fiat-Shamir heuristic is a method used to transform an interactive public-co
 ###  Flow visulaization
 ![IMG_1503](https://github.com/Am0stafa/Zero-Knowledge-Proof-authentication/assets/62848968/8c97dc43-14c1-4288-8c7a-ed40488e1f8c)
 
+![zkp04 (1)](https://github.com/Am0stafa/Zero-Knowledge-Proof-authentication/assets/62848968/7cdf1886-6b9a-44a1-b409-1a88e806b035)
 
 ## Thread Safety
 
