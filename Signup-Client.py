@@ -49,4 +49,4 @@ def signup(username, password):
   print(response.decode())
 
 # Usage:
-signup('john2', 'password123')
+signup('abdo', 'password123')

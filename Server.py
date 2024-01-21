@@ -42,6 +42,7 @@ def handle_client(client_socket, addr):
     users = load_users()
 
     if route == '/signup':
+      print(Fore.GREEN + f"User {username} of address {addr} is trying to signup" + Fore.RESET)
       if username in users:
         client_socket.send("Username already taken".encode())
         print(Fore.RED + f"Username {username} already taken" + Fore.RESET)
@@ -93,9 +94,16 @@ def main():
     print("Server listening on port 9999")
 
     while True:
-      client_socket, addr = server.accept()
-      client_handler = threading.Thread(target=handle_client, args=(client_socket, addr))
-      client_handler.start()
-
+        print("Waiting for a connection...")
+        try:
+          client_socket, addr = server.accept()
+        except Exception as e:
+          print("An error occurred while accepting a connection")
+          print(e)
+        print(f"Connection from {addr} has been established.")
+        client_handler = threading.Thread(target=handle_client, args=(client_socket, addr))
+        client_handler.start()
 if __name__ == "__main__":
   main()
+
+ 
