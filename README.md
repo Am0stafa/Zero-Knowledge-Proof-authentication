@@ -35,7 +35,8 @@ The server is designed to be thread-safe. It uses Python's threading module to h
 ## User Interface
 
 Our system features an advanced, user-friendly UI that visualizes each step of the authentication process, providing users with a clear understanding of the underlying cryptographic operations.
-![Uploading Screenshot 2024-05-21 at 3.01.25 PM.png…]()
+<img width="1199" alt="Screenshot 2024-05-21 at 3 01 25 PM" src="https://github.com/Am0stafa/Zero-Knowledge-Proof-authentication/assets/62848968/7f1c39b6-97d5-4acd-be36-cdbdb73353d5">
+
 
 
 ## Real-Time Cryptographic Calculations
