@@ -4,33 +4,29 @@ import json
 import os
 import random
 import libnum
-from colorama import init,Fore
+from colorama import init, Fore
 
 init()
 data_file = 'users.json'
 g = 3
 n = 997
 salt = "S0m3_S4lt"
-# this will make sure that the load_users() and save_users() functions do not clash when multiple threads try to read from or write
 file_lock = threading.Lock()
 
 def load_users():
-  with file_lock:
-    if os.path.exists(data_file):
-      with open(data_file, 'r') as f:
-        try:
-          return json.load(f)
-        except json.JSONDecodeError:
-          print("The users file is empty")
-          return {}
-    print("The users file does not exist")
-    return {}
+    with file_lock:
+        if os.path.exists(data_file):
+            with open(data_file, 'r') as f:
+                try:
+                    return json.load(f)
+                except json.JSONDecodeError:
+                    return {}
+        return {}
 
 def save_users(users):
-  with file_lock:
-    with open(data_file, 'w') as f:
-      json.dump(users, f)
-
+    with file_lock:
+        with open(data_file, 'w') as f:
+            json.dump(users, f)
 
 def handle_client(client_socket, addr):
     print(Fore.GREEN + f"Connection from {addr}" + Fore.RESET)
@@ -42,34 +38,33 @@ def handle_client(client_socket, addr):
     users = load_users()
 
     if route == '/signup':
-      print(Fore.GREEN + f"User {username} of address {addr} is trying to signup" + Fore.RESET)
-      if username in users:
-        client_socket.send("Username already taken".encode())
-        print(Fore.RED + f"Username {username} already taken" + Fore.RESET)
-      else:
-        users[username] = password
-        save_users(users)
-        print(Fore.GREEN + f"User {username} of address {addr} signed up successfully" + Fore.RESET)
-        client_socket.send("Signup successful".encode())
+        print(Fore.GREEN + f"User {username} of address {addr} is trying to signup" + Fore.RESET)
+        if username in users:
+            client_socket.send("Username already taken".encode())
+            print(Fore.RED + f"Username {username} already taken" + Fore.RESET)
+        else:
+            users[username] = password
+            save_users(users)
+            print(Fore.GREEN + f"User {username} of address {addr} signed up successfully" + Fore.RESET)
+            client_socket.send("Signup successful".encode())
 
     elif route == '/login':
         if username not in users:
-          client_socket.send("Invalid username".encode())
-          print(Fore.RED + f"Invalid username {username} for address {addr}" + Fore.RESET)
+            client_socket.send("Invalid username".encode())
+            print(Fore.RED + f"Invalid username {username} for address {addr}" + Fore.RESET)
         else:
             providedT = int(password)
-            print(Fore.GREEN + f"User {username} of address {addr} sended the value of t as {providedT}" + Fore.RESET)
-            c = random.randint(1,997)
-            print(Fore.GREEN + f"Server generated a random value c with the value of {c} to this user {username} with this address {addr}" + Fore.RESET)
+            print(Fore.GREEN + f"User {username} of address {addr} sent the value of t as {providedT}" + Fore.RESET)
+            c = random.randint(1, 997)
+            print(Fore.GREEN + f"Server generated a random value c with the value of {c} for this user {username} with this address {addr}" + Fore.RESET)
             client_socket.send(str(c).encode())
 
-            # Wait for response from client
             response_data = client_socket.recv(1024).decode()
-            
+
             if 'r value for' in response_data:
                 _, _, _, _, nameForR, r_value = response_data.split(' ')
                 r = int(r_value)
-                print(Fore.GREEN + f"User {nameForR} of address {addr} sended the value of r as {r}" + Fore.RESET)
+                print(Fore.GREEN + f"User {nameForR} of address {addr} sent the value of r as {r}" + Fore.RESET)
                 y = int(users[username])
 
                 if r < 0:
@@ -86,7 +81,6 @@ def handle_client(client_socket, addr):
     else:
         client_socket.send("Invalid route".encode())
 
-
 def main():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind(("0.0.0.0", 9999))
@@ -96,14 +90,13 @@ def main():
     while True:
         print("Waiting for a connection...")
         try:
-          client_socket, addr = server.accept()
+            client_socket, addr = server.accept()
         except Exception as e:
-          print("An error occurred while accepting a connection")
-          print(e)
+            print("An error occurred while accepting a connection")
+            print(e)
         print(f"Connection from {addr} has been established.")
         client_handler = threading.Thread(target=handle_client, args=(client_socket, addr))
         client_handler.start()
-if __name__ == "__main__":
-  main()
 
- 
+if __name__ == "__main__":
+    main()
