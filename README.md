@@ -35,6 +35,7 @@ The server is designed to be thread-safe. It uses Python's threading module to h
 ## User Interface
 
 Our system features an advanced, user-friendly UI that visualizes each step of the authentication process, providing users with a clear understanding of the underlying cryptographic operations.
+![Uploading Screenshot 2024-05-21 at 3.01.25 PM.png…]()
 
 
 ## Real-Time Cryptographic Calculations
